@@ -1,3 +1,4 @@
+Asegurarse de tener todos los archivos en el repositorio local (incluidas las 4 melodias)
 Abrir la terminal ctrl+alt+t
 ir a la carpeta donde se encuentra el repositorio local
 ejecutar sudo ./install_mplayer.sh
