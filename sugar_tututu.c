@@ -8,53 +8,53 @@
 
 #define NUM_THREADS 4
 sem_t semaphore1, semaphore2, semaphore3, semaphore4;
-int firstRun = 0;
+char signal;
+int loopTrigger = 1;
 
 //cada funcion tocar_movimiento_i toca una parte de la melodia
 void* tocar_movimiento_1 (void* parametro)
 {
-	firstRun++;
-	while(1){
-	if(firstRun > 1)
-		sem_wait(&semaphore4);
+	
 	system("echo Start; mplayer -really-quiet part1_SugarSugar.mp3");
 	sem_post(&semaphore1);   
    	pthread_exit(NULL);
-   }
+   
 }
 
 void* tocar_movimiento_2 (void* parametro)
 {   
-	while(1){
+
 	sem_wait(&semaphore1);
 	system("mplayer -really-quiet part2_SugarSugar.mp3");
 	sem_post(&semaphore2);   
    	pthread_exit(NULL);
-   }
+   
 }
 
 void* tocar_movimiento_3 (void* parametro)
 {   
-	while(1){
+	
 	sem_wait(&semaphore2);
 	system("mplayer -really-quiet part3_SugarSugar.mp3");
 	sem_post(&semaphore3);   
    	pthread_exit(NULL);
-   }
+   
 }
 
 void* tocar_movimiento_4 (void* parametro)
 {   
-	while(1){
+	
 	sem_wait(&semaphore3);
 	system("mplayer -really-quiet part4_SugarSugar.mp3");
-	sem_post(&semaphore4);   
-   	pthread_exit(NULL);
-   }
+	sem_post(&semaphore4);
+	pthread_exit(NULL);
+   
 }
 
-void playSong(){
-	pthread_t threads[NUM_THREADS]; //una variable de tipo pthread_t sirve para identificar cada hilo que se cree
+int main ()
+{
+   
+   	pthread_t threads[NUM_THREADS]; //una variable de tipo pthread_t sirve para identificar cada hilo que se cree
                                    //la variable threads es una array de pthread_t
                                    //comparar con char data[100], un array de char                                           
 	
@@ -75,24 +75,8 @@ void playSong(){
     	{
         	pthread_join(threads[i] , NULL);
     	}
-    
-}
 
-int main ()
-{
-	int trigger = 1;
-   	char signal;
-   	while(trigger){
-   		playSong();
-    	printf("Desea escuhar de nuevo? Pulse 'N' para quitar, pulse cualquier tecla para seguir \n");
-    	scanf("%c", &signal);
-    	if(signal == 'n' || signal == 'N'){
-    		trigger = 0;
-    	}
-    	else{
-    		trigger = 1;
-    	}
-	}
+	
 	
 	pthread_exit(NULL);
 	return EXIT_SUCCESS;
