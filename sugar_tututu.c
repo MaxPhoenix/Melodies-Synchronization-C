@@ -8,14 +8,14 @@
 
 #define NUM_THREADS 4
 sem_t semaphore1, semaphore2, semaphore3, semaphore4;
-char signal;
-int loopTrigger = 1;
+
+
 
 //cada funcion tocar_movimiento_i toca una parte de la melodia
 void* tocar_movimiento_1 (void* parametro)
 {
 	
-	system("echo Start; mplayer -really-quiet part1_SugarSugar.mp3");
+	system("echo Parte 1; mplayer -really-quiet part1_SugarSugar.mp3");
 	sem_post(&semaphore1);   
    	pthread_exit(NULL);
    
@@ -24,8 +24,9 @@ void* tocar_movimiento_1 (void* parametro)
 void* tocar_movimiento_2 (void* parametro)
 {   
 
+
 	sem_wait(&semaphore1);
-	system("mplayer -really-quiet part2_SugarSugar.mp3");
+	system("echo Parte 2; mplayer -really-quiet part2_SugarSugar.mp3");
 	sem_post(&semaphore2);   
    	pthread_exit(NULL);
    
@@ -33,9 +34,8 @@ void* tocar_movimiento_2 (void* parametro)
 
 void* tocar_movimiento_3 (void* parametro)
 {   
-	
 	sem_wait(&semaphore2);
-	system("mplayer -really-quiet part3_SugarSugar.mp3");
+	system("echo parte 3; mplayer -really-quiet part3_SugarSugar.mp3");
 	sem_post(&semaphore3);   
    	pthread_exit(NULL);
    
@@ -43,9 +43,8 @@ void* tocar_movimiento_3 (void* parametro)
 
 void* tocar_movimiento_4 (void* parametro)
 {   
-	
 	sem_wait(&semaphore3);
-	system("mplayer -really-quiet part4_SugarSugar.mp3");
+	system("echo parte 4; mplayer -really-quiet part4_SugarSugar.mp3");
 	sem_post(&semaphore4);
 	pthread_exit(NULL);
    
@@ -63,8 +62,8 @@ int main ()
 	//y no se reconoce la melodía
 	   	
 	int rc;
-   	rc = pthread_create(&threads[1], NULL, tocar_movimiento_2, NULL );
-   	rc = pthread_create(&threads[0], NULL, tocar_movimiento_1, NULL );
+   	rc = pthread_create(&threads[0], NULL, tocar_movimiento_2, NULL );
+   	rc = pthread_create(&threads[1], NULL, tocar_movimiento_1, NULL );
    	rc = pthread_create(&threads[3], NULL, tocar_movimiento_4, NULL );
    	rc = pthread_create(&threads[2], NULL, tocar_movimiento_3, NULL );
    	
