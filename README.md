@@ -8,3 +8,5 @@ luego ejecutar  ./cancion
 
 para el codigo de astros se encuentra el archivo seccionCritica.c junto con el archivo astros. 
 ejectar en la terminal ./astros o primero compilar con gcc seccionCritica.c -o astros -lpthread y luego ejecutar
+
+agregado una version de seccionCritica con mutex version compilada es "./seccion"
